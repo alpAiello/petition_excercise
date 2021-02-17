@@ -1,1 +1,13 @@
-<h1>Example App: Home</h1>
+<section class="signature-box">
+<h2>{{title}}</h2>
+<p>{{description}}</p>
+<form class="signature-form" action="post">
+    <label for="firstname">Lastname</label>
+    <input id="firstname" type="text">
+    <label for="lastname">Firstname</label>
+    <input id="lastname" type="text">
+    <canvas id="signature-field" width="600" height="300"></canvas>
+    <button id="submit-btn" type="submit">send</button>
+    <input type="hidden" name="signature-input">
+</form>
+</section>

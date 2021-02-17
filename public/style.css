@@ -1,0 +1,54 @@
+body {
+    background-color: #875dc9;
+    display: flex;
+    flex-direction: column;
+}
+
+header h1 {
+    color: black;
+}
+
+h1,
+h2,
+p,
+label {
+    text-align: center;
+    color: #563198;
+}
+
+.signature-box {
+    align-self: center;
+    background-color: #25d6d6;
+    width: 68vw;
+    height: 46vw;
+    border-radius: 2%;
+    margin: 30px 0;
+    box-shadow: 2px 2px 10px #def8f7;
+    display: flex;
+    flex-direction: column;
+}
+
+.signature-form {
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+    align-self: center;
+    margin: 60px 0;
+}
+
+#signature-field {
+    background: #def8f7;
+}
+
+.signature-form button,
+input {
+    margin: 10px;
+    width: 300px;
+    align-self: center;
+}
+
+button {
+    width: 80px;
+    margin: auto;
+    align-self: center;
+}
