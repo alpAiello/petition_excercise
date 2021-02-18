@@ -1,8 +1,7 @@
 let wholeDocument = $("body")
-let signatureField = $("#signature-field")
-let signatureFieldCanvas = document.getElementById("signature-field")
+let signatureField = $("#signatureField")
 let paintmode = false
-let ctx = signatureFieldCanvas.getContext("2d")
+let ctx = signatureField[0].getContext("2d")
 
 signatureField
     .on("mousedown", (e) => {
@@ -13,7 +12,10 @@ signatureField
     })
 signatureField
     .on("mousemove", (e) => {
+
         if (paintmode == true) {
+            let dataURL = signatureField[0].toDataURL()
+            $("#hiddenSignatureField").val(dataURL)
             ctx.lineTo(e.pageX - signatureField.offset().left, e.pageY - signatureField.offset().top)
             ctx.stroke()
         }

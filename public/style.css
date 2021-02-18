@@ -16,19 +16,18 @@ label {
     color: #563198;
 }
 
-.signature-box {
+.signatureBox {
     align-self: center;
     background-color: #25d6d6;
-    width: 68vw;
-    height: 46vw;
     border-radius: 2%;
     margin: 30px 0;
     box-shadow: 2px 2px 10px #def8f7;
     display: flex;
     flex-direction: column;
+    padding: 20px;
 }
 
-.signature-form {
+.signatureForm {
     display: flex;
     flex-direction: column;
     width: 600px;
@@ -36,11 +35,11 @@ label {
     margin: 60px 0;
 }
 
-#signature-field {
+#signatureField {
     background: #def8f7;
 }
 
-.signature-form button,
+.signatureForm button,
 input {
     margin: 10px;
     width: 300px;

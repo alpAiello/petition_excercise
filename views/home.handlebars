@@ -1,13 +1,16 @@
-<section class="signature-box">
+<section class="signatureBox">
 <h2>{{title}}</h2>
 <p>{{description}}</p>
-<form class="signature-form" action="post">
+<form class="signatureForm" action="/signed-petition" method="post">
     <label for="firstname">Lastname</label>
-    <input id="firstname" type="text">
+    <input name="firstName" id="firstname" type="text">
     <label for="lastname">Firstname</label>
-    <input id="lastname" type="text">
-    <canvas id="signature-field" width="600" height="300"></canvas>
-    <button id="submit-btn" type="submit">send</button>
-    <input type="hidden" name="signature-input">
+    <input name="lastName" id="lastname" type="text">
+    <canvas id="signatureField" width="600" height="300"></canvas>
+    <button id="submitBtn" type="submit">send</button>
+    <input name="signature" type="hidden" id="hiddenSignatureField">
+    {{#if error}}
+    <p class="error">{{error}}</p>
+    {{/if}}
 </form>
 </section>
