@@ -51,3 +51,22 @@ button {
     margin: auto;
     align-self: center;
 }
+
+#signatureTable {
+    align-self: center;
+    background-color: #25d6d6;
+    width: 100%;
+    padding: 30px;
+    border-spacing: 20px;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+th {
+    text-align: center;
+}
