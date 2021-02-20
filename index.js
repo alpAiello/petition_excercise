@@ -3,13 +3,14 @@ const hb = require('express-handlebars');
 const db = require('./database');
 const cookieSession = require("cookie-session")
 const csurf = require("csurf")
-
+const bcrypt = require("bcrypt")
 const app = express();
 
 app.use(express.urlencoded())
-app.use(express.static("public"))
 
+app.use(express.static("public"))
 app.engine("handlebars", hb())
+
 app.set("view engine", "handlebars")
 app.use(
     cookieSession({
@@ -18,12 +19,11 @@ app.use(
     })
 );
 app.use(csurf());
-
 app.use((request, response, next) => {
+
     response.locals.csrfToken = request.csrfToken();
     next();
 });
-
 app.get(("/"),
     (req, res) => {
         res.render("home", {
@@ -32,26 +32,6 @@ app.get(("/"),
         })
     })
 
-app.post(("/signed-petition"),
-    (req, res) => {
-        let { firstName, lastName, signature } = req.body
-        if (!firstName || !lastName || !signature) {
-            res.render("home", {
-                title: "Awesome life petition",
-                description: "We want everyone to have a awesome life and enjoy the insanity of beeing alive in a good way. Please sign so we can go on with stuff",
-                error: "Please fill out all fields"
-            })
-        } else {
-            res.cookie("signed", true)
-            db.addSignature(firstName, lastName, signature)
-                .then((user) => {
-                    req.session.userID = user.rows[0].id
-                    console.log(req.session)
-                    res.redirect("/thank-you")
-                })
-                .catch(error => console.log(error))
-        }
-    })
 app.get("/thank-you",
     (req, res) => {
         console.log(req.session.userID)
@@ -79,6 +59,55 @@ app.get("/signers-list", (req, res) => {
 
         )
 })
+
+app.get("/register", (req,res) => {
+    res.render("register", {})
+})
+
+app.post("/register", (req, res) => {
+    let {firstname, lastname, email, password} = req.body
+    console.log(!firstname || !lastname || !email || !password)
+    if (firstname && lastname && email && password){
+        const saltrounds = 10
+        bcrypt.genSalt(saltrounds, function(err, salt) {
+            bcrypt.hash(password, salt, function(err, hash) {
+                db.addUser(firstname, lastname, email, hash)
+                req.session.firstname = firstname
+                req.session.lastname = lastname
+                req.session.email = email
+                req.session.hash = hash
+                console.log(req.session)
+            });
+        });
+        res.redirect(302, "/")
+        console.log("send data")
+        console.log("firstname", firstname)
+        console.log("lastname", lastname)
+        console.log("email", email)
+        console.log("password", password)
+    }
+})
+
+app.post(("/signed-petition"),
+    (req, res) => {
+        let { firstName, lastName, signature } = req.body
+        if (!firstName || !lastName || !signature) {
+            res.render("home", {
+                title: "Awesome life petition",
+                description: "We want everyone to have a awesome life and enjoy the insanity of beeing alive in a good way. Please sign so we can go on with stuff",
+                error: "Please fill out all fields"
+            })
+        } else {
+            res.cookie("signed", true)
+            db.addSignature(firstName, lastName, signature)
+                .then((user) => {
+                    req.session.userID = user.rows[0].id
+                    console.log(req.session)
+                    res.redirect("/thank-you")
+                })
+                .catch(error => console.log(error))
+        }
+    })
 
 
 app.listen(8080)
