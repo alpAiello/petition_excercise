@@ -39,8 +39,9 @@ app.get("/thank-you", (req, res) => {
       console.log(signature);
       res.render("thank-you", {
         title: "Thank you for signing our Petition!",
+        ListOfSigners: "/signers-list",
         /*firstname: signature.rows[0].firstname,
-                    lastname: signature.rows[0].lastname,*/
+          lastname: signature.rows[0].lastname,*/
         signature: signature.rows[0].signature,
       });
     });
@@ -56,10 +57,14 @@ app.get("/signers-list", (req, res) => {
 });
 
 app.get("/register", (req, res) => {
-  res.render("register", {});
+  res.render("register", {
+    linkToLogin: "/login",
+  });
 });
 app.get("/login", (req, res) => {
-  res.render("login", {});
+  res.render("login", {
+    linkToRegister: "/register",
+  });
 });
 
 app.post("/login", (req, res) => {
