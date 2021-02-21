@@ -1,0 +1,11 @@
+<form class="signatureForm" action="/login" method="post">
+    <label for="email">Email</label>
+    <input name="email" id="email" type="email">
+    <label for="password">Password</label>
+    <input name="password" id="password" type="password">
+    <button id="submitBtn" type="submit">login</button>
+    {{#if error}}
+        <p class="error">{{error}}</p>
+    {{/if}}
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+</form>

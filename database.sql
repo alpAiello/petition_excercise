@@ -8,7 +8,7 @@ CREATE TABLE users(
     firstname VARCHAR(255),
     lastname VARCHAR(255),
     email VARCHAR(255) UNIQUE,
-    hashedPassword VARCHAR(255),
+    hashedpassword VARCHAR(255),
     created_at VARCHAR(255)
                  );
 SELECT * FROM signatures;
