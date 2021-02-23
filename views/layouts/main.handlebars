@@ -6,7 +6,14 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <header><h1>GOOD LIFE SIGNATURE CONTEST</h1></header>
+<header>
+    <h1>GOOD LIFE SIGNATURE CONTEST</h1>
+    {{#if showUser}}
+            <p>{{showUser}}</p>
+    {{/if}}
+    <button id="logout-button">Logout</button>
+</header>
+
     {{{body}}}
 
 </body>

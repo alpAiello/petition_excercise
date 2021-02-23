@@ -1,0 +1,13 @@
+<form class="form" action="/profile" method="post">
+    <label for="age">Age</label>
+    <input name="age" id="age" type="text">
+    <label for="city">City</label>
+    <input name="city" id="city" type="text">
+    <label for="homepage">Homepage</label>
+    <input name="homepage" id="homepage" type="text">
+    <button id="submitBtn" type="submit">next</button>
+    {{#if error}}
+        <p class="error">{{error}}</p>
+    {{/if}}
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+</form>

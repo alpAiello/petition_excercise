@@ -1,12 +1,12 @@
-<form class="signatureForm" action="/login" method="post">
+<form class="form" action="/login" method="post">
     <label for="email">Email</label>
     <input name="email" id="email" type="email">
     <label for="password">Password</label>
     <input name="password" id="password" type="password">
-    <p><a href="{{linkToRegister}}">register</a></p>
-    <button id="submitBtn" type="submit">login</button>
+    <button id="submitBtn" type="submit">OK</button>
     {{#if error}}
         <p class="error">{{error}}</p>
     {{/if}}
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <p class="link-text">If you dont have an account, please <a href="{{linkToRegister}}">register</a></p>
 </form>

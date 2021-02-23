@@ -1,0 +1,11 @@
+<form class="form" action="/sign-petition" method="post">
+    <h2>{{title}}</h2>
+    <p>{{description}}</p>
+    <canvas id="signatureField" width="900" height="400"></canvas>
+    <button id="submitBtn" type="submit">send</button>
+    <input name="signature" type="hidden" id="hiddenSignatureField">
+    {{#if error}}
+        <p class="error">{{error}}</p>
+    {{/if}}
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+</form>

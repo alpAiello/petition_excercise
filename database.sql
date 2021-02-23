@@ -1,15 +1,29 @@
-DROP TABLE signatures;
-DROP TABLE users;
+DROP TABLE IF EXISTS signatures;
+DROP TABLE IF EXISTS profiles;
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users(id SERIAL PRIMARY KEY UNIQUE,
+    firstname VARCHAR(255) NOT NULL,
+    lastname VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    hashedpassword VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE signatures(
     id SERIAL PRIMARY KEY UNIQUE,
-    signature TEXT);
-CREATE TABLE users(
+    user_id INTEGER REFERENCES users(id) UNIQUE,
+    signature TEXT
+                       );
+
+CREATE TABLE profiles(
     id SERIAL PRIMARY KEY UNIQUE,
-    firstname VARCHAR(255),
-    lastname VARCHAR(255),
-    email VARCHAR(255) UNIQUE,
-    hashedpassword VARCHAR(255),
-    created_at VARCHAR(255)
-                 );
+    user_id INTEGER REFERENCES users(id) UNIQUE,
+    age INTEGER,
+    city VARCHAR(1000),
+    homepage VARCHAR(1000)
+                     );
+
 SELECT * FROM signatures;
 SELECT * FROM users;
+SELECT * FROM profiles;
