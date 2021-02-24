@@ -34,6 +34,10 @@ app.use((request, response, next) => {
   next();
 });
 
+app.get("/", (req, res) => {
+  res.redirect(302, "/register")
+}
+
 app.get("/register", (req, res) => {
   res.render("register", {
     linkToLogin: "/login",
