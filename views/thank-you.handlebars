@@ -4,4 +4,8 @@
 <img src="{{signature}}">
     <a href="/signers-list">see all signers</a>
     <a href="/update-user-data">update your profile</a>
+    <form id="unsign-petition" action="/unsign-petition" method="post">
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+        <button type="submit">unsign petition</button>
+    </form>
 </section>

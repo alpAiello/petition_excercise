@@ -59,7 +59,7 @@ app.get("/sign-petition", (req, res) => {
 });
 
 app.get("/thank-you", (req, res) => {
-  db.getSignatures(req.session.userID)
+  db.getSignature(req.session.userID)
     .catch((error) => console.log(error))
     .then((signature) => {
       res.render("thank-you", {
@@ -229,4 +229,9 @@ app.post("/sign-petition", (req, res) => {
   }
 });
 
+app.post("/unsign-petition", (req, res) => {
+  db.deleteSignature(req.session.userID).then(() => {
+    res.redirect(302, "/sign-petition");
+  });
+});
 app.listen(8080);

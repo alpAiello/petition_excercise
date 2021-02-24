@@ -89,6 +89,7 @@ WHERE user_id = $1;`,
 exports.getUser = (userID) => {
   return db.query(`SELECT * FROM users WHERE id = $1`, [userID]);
 };
+
 exports.getUserByEmail = (email) => {
   return db.query(`SELECT * FROM users WHERE email = $1`, [email]);
 };
@@ -108,10 +109,19 @@ JOIN
 `);
 };
 
-exports.getSignatures = (userID) => {
+exports.getSignature = (userID) => {
   return db.query(
     `
-    SELECT (signature) FROM signatures WHERE id = $1 
+    SELECT (signature) FROM signatures WHERE user_id = $1 
+    `,
+    [userID]
+  );
+};
+
+exports.deleteSignature = (userID) => {
+  return db.query(
+    `
+    DELETE FROM signatures WHERE user_id = $1;
     `,
     [userID]
   );

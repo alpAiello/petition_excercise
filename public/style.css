@@ -100,3 +100,14 @@ td {
 th {
     text-align: center;
 }
+#unsign-petition button{
+    background: none!important;
+    border: none;
+    padding: 0!important;
+    /*optional*/
+    font-family: arial, sans-serif;
+    /*input has OS specific font-family*/
+    color: -webkit-link;
+    text-decoration: underline;
+    cursor: auto;
+}
