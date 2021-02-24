@@ -234,4 +234,5 @@ app.post("/unsign-petition", (req, res) => {
     res.redirect(302, "/sign-petition");
   });
 });
-app.listen(8080);
+
+app.listen(process.env.PORT || 8080);

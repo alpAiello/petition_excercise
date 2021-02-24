@@ -1,0 +1,21 @@
+<section class="signatureBox">
+<h2>{{title}}</h2>
+<table id="signatureTable">
+    <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>age</th>
+        <th>city</th>
+        <th>homepage</th>
+    </tr>
+{{#each signer}}
+<tr>
+    <td>{{firstname}}</td>
+    <td>{{lastname}}</td>
+    <td>{{age}}</td>
+    <td>{{city}}</td>
+    <td>{{homepage}}</td>
+</tr>
+{{/each}}
+</table>
+</section>

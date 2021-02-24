@@ -1,5 +1,8 @@
 const spicedPG = require("spiced-pg");
-const db = spicedPG("postgres:alessandroaiello:@localhost:5432/petition");
+let dbUrl =
+  process.env.DATABASE_URL ||
+  "postgres://spicedling:password@localhost:5432/petition";
+const db = spicedPG(dbUrl);
 
 exports.addUser = (firstname, lastname, email, hashedPassword) => {
   return db.query(
