@@ -31,7 +31,6 @@ app.use((request, response, next) => {
     response.locals.showUser =
       request.session.firstname + " " + request.session.lastname;
   }
-  console.log(request.session);
   next();
 });
 
@@ -60,11 +59,9 @@ app.get("/sign-petition", (req, res) => {
 });
 
 app.get("/thank-you", (req, res) => {
-  console.log(req.session.userID);
   db.getSignatures(req.session.userID)
     .catch((error) => console.log(error))
     .then((signature) => {
-      console.log(signature.rows[0]);
       res.render("thank-you", {
         title: "Thank you for signing our Petition!",
         ListOfSigners: "/signers-list",
@@ -75,7 +72,6 @@ app.get("/thank-you", (req, res) => {
 
 app.get("/signers-list", (req, res) => {
   db.getSigners().then((signers) => {
-    console.log(signers);
     res.render("signers-list", {
       title: "Awesome life petition signers",
       signer: signers.rows,
@@ -84,12 +80,67 @@ app.get("/signers-list", (req, res) => {
 });
 
 app.get("/update-user-data", (req, res) => {
-  res.render("update-user-data");
+  Promise.all([
+    db.getUser(req.session.userID),
+    db.getProfile(req.session.userID),
+  ]).then((userData) => {
+    const { firstname, lastname, email } = userData[0].rows[0];
+    const { age, city, homepage } = userData[1].rows[0];
+    res.render("update-user-data", {
+      firstname: firstname,
+      lastname: lastname,
+      email: email,
+      age: age,
+      city: city,
+      homepage: homepage,
+    });
+  });
+});
+
+app.post("/update-user-data", (req, res) => {
+  if (!req.session.userID) {
+    res.redirect(302, "/login");
+  } else {
+    const {
+      firstname,
+      lastname,
+      email,
+      password,
+      age,
+      city,
+      homepage,
+    } = req.body;
+    console.log("-> req.body", req.body);
+    console.log("-> password", password);
+    let updatePasswordPromise;
+    if (password) {
+      updatePasswordPromise = bcrypt
+        .genHash(password)
+        .then((hashedPassword) => {
+          return db.updatePassword(req.session.userID, hashedPassword);
+        });
+    }
+    Promise.all([
+      db.updateUser(req.session.userID, firstname, lastname, email),
+      updatePasswordPromise,
+      db.upsertProfile(req.session.userID, age, city, homepage),
+    ]).then((newUserData) => {
+      const { firstname, lastname, email } = newUserData[0].rows[0];
+      const { age, city, homepage } = newUserData[2].rows[0];
+      console.log(newUserData[1].rows[0]);
+      req.session.firstname = firstname;
+      req.session.lastname = lastname;
+      req.session.email = email;
+      req.session.age = age;
+      req.session.city = city;
+      req.session.homepage = homepage;
+      res.redirect(302, "/update-user-data");
+    });
+  }
 });
 
 app.post("/register", (req, res) => {
   const { firstname, lastname, email, password } = req.body;
-  console.log(!firstname || !lastname || !email || !password);
   if (firstname && lastname && email && password) {
     bcrypt.genHash(password).then((hashedpassword) => {
       db.addUser(firstname, lastname, email, hashedpassword).then((results) => {
@@ -110,7 +161,7 @@ app.post("/profile", (req, res) => {
   const { age, city, homepage } = req.body;
   if (age && city && homepage) {
     const userID = req.session.userID;
-    db.addProfile(age, city, homepage, userID)
+    db.upsertProfile(userID, age, city, homepage)
       .catch((error) =>
         res.render("profile", {
           error: error,
@@ -134,7 +185,7 @@ app.post("/login", (req, res) => {
       error: "Please fill out both fields",
     });
   } else {
-    db.getUser(email).then((user) => {
+    db.getUserByEmail(email).then((user) => {
       const currentUser = user.rows;
       if (currentUser.length === 0) {
         res.render("login", {
@@ -151,7 +202,7 @@ app.post("/login", (req, res) => {
             req.session.userID = currentUser[0].id;
             req.session.firstname = currentUser[0].firstname;
             req.session.lastname = currentUser[0].lastname;
-            res.redirect(302, "/sign-petition");
+            res.redirect(302, "/thank-you");
           }
         });
       }

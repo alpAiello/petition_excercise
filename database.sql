@@ -19,9 +19,9 @@ CREATE TABLE signatures(
 CREATE TABLE profiles(
     id SERIAL PRIMARY KEY UNIQUE,
     user_id INTEGER REFERENCES users(id) UNIQUE,
-    age INTEGER,
-    city VARCHAR(1000),
-    homepage VARCHAR(1000)
+    age INTEGER NOT NULL,
+    city VARCHAR(1000) NOT NULL,
+    homepage VARCHAR(1000) NOT NULL
                      );
 
 SELECT * FROM signatures;

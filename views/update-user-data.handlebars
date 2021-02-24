@@ -1,18 +1,18 @@
-<form class="form" action="/register" method="post">
+<form class="form" action="/update-user-data" method="post">
     <label for="firstname">Firstname</label>
-    <input name="firstname" id="firstname" type="text">
+    <input name="firstname" id="firstname" type="text" value="{{firstname}}">
     <label for="lastname">Lastname</label>
-    <input name="lastname" id="lastname" type="text">
+    <input name="lastname" id="lastname" type="text" value="{{lastname}}">
     <label for="email">Email</label>
-    <input name="email" id="email" type="email">
+    <input name="email" id="email" type="email" value="{{email}}">
     <label for="password">Password</label>
     <input name="password" id="password" type="password">
     <label for="age">Age</label>
-    <input name="age" id="age" type="text">
+    <input name="age" id="age" type="text" value="{{age}}">
     <label for="city">City</label>
-    <input name="city" id="city" type="text">
+    <input name="city" id="city" type="text" value="{{city}}">
     <label for="homepage">Homepage</label>
-    <input name="homepage" id="homepage" type="text">
+    <input name="homepage" id="homepage" type="text" value="{{homepage}}">
     <button id="submitBtn" type="submit">UPDATE</button>
     {{#if error}}
         <p class="error">{{error}}</p>
