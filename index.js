@@ -35,8 +35,8 @@ app.use((request, response, next) => {
 });
 
 app.get("/", (req, res) => {
-  res.redirect(302, "/register")
-}
+  res.redirect(302, "/register");
+});
 
 app.get("/register", (req, res) => {
   res.render("register", {
