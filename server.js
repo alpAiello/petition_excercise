@@ -80,11 +80,19 @@ app.get("/thank-you", (req, res) => {
   db.getSignature(req.session.userID)
     .catch((error) => console.log(error))
     .then((signature) => {
-      res.render("thank-you", {
-        title: "Thank you for signing our Petition!",
-        ListOfSigners: "/signers-list",
-        signature: signature.rows[0].signature,
-      });
+      if (signature.rows[0] != undefined) {
+        res.render("thank-you", {
+          title: "Thank you for signing our Petition!",
+          ListOfSigners: "/signers-list",
+          signature: signature.rows[0].signature,
+        });
+      } else {
+        console.log("nosignature");
+        res.render("thank-you", {
+          title: "Thank you for signing our Petition!",
+          ListOfSigners: "/signers-list",
+        });
+      }
     });
 });
 
@@ -177,18 +185,21 @@ app.post("/register", (req, res) => {
 
 app.post("/profile", (req, res) => {
   const { age, city, homepage } = req.body;
-
-  const userID = req.session.userID;
-  db.upsertProfile(userID, age, city, homepage)
-    .catch((error) =>
-      res.render("profile", {
-        error: error,
-      })
-    )
-    .then((profile) => {
-      req.session = { ...req.session, ...profile.rows[0] };
-      res.redirect(302, "/sign-petition");
-    });
+  if (age || city || homepage) {
+    const userID = req.session.userID;
+    db.upsertProfile(userID, age, city, homepage)
+      .catch((error) =>
+        res.render("profile", {
+          error: error,
+        })
+      )
+      .then((profile) => {
+        req.session = { ...req.session, ...profile.rows[0] };
+        res.redirect(302, "/sign-petition");
+      });
+  } else {
+    res.redirect(302, "/sign-petition");
+  }
 });
 
 app.post("/login", (req, res) => {
@@ -226,7 +237,7 @@ app.post("/login", (req, res) => {
 app.post("/sign-petition", (req, res) => {
   let { signature } = req.body;
   if (!signature) {
-    res.render("home", {
+    res.render("thank-you", {
       title: "Awesome life petition",
       description:
         "We want everyone to have a awesome life and enjoy the insanity of beeing alive in a good way. Please sign so we can go on with stuff",
