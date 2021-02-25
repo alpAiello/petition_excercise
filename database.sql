@@ -19,7 +19,7 @@ CREATE TABLE signatures(
 CREATE TABLE profiles(
     id SERIAL PRIMARY KEY UNIQUE,
     user_id INTEGER REFERENCES users(id) UNIQUE,
-    age INTEGER,
+    age VARCHAR(1000),
     city VARCHAR(1000),
     homepage VARCHAR(1000)
                      );
