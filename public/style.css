@@ -150,3 +150,6 @@ th {
     border: 1px solid #563198;
     margin: 30px 0 10px 0;
 }
+.link-text a{
+    font-size: 18px;
+}

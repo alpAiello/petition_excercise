@@ -177,23 +177,18 @@ app.post("/register", (req, res) => {
 
 app.post("/profile", (req, res) => {
   const { age, city, homepage } = req.body;
-  if (age && city && homepage) {
-    const userID = req.session.userID;
-    db.upsertProfile(userID, age, city, homepage)
-      .catch((error) =>
-        res.render("profile", {
-          error: error,
-        })
-      )
-      .then((profile) => {
-        req.session = { ...req.session, ...profile.rows[0] };
-        res.redirect(302, "/sign-petition");
-      });
-  } else {
-    res.render("profile", {
-      error: "please fill out all fields",
+
+  const userID = req.session.userID;
+  db.upsertProfile(userID, age, city, homepage)
+    .catch((error) =>
+      res.render("profile", {
+        error: error,
+      })
+    )
+    .then((profile) => {
+      req.session = { ...req.session, ...profile.rows[0] };
+      res.redirect(302, "/sign-petition");
     });
-  }
 });
 
 app.post("/login", (req, res) => {
