@@ -31,6 +31,11 @@ app.use((request, response, next) => {
     response.locals.showUser =
       request.session.firstname + " " + request.session.lastname;
   }
+  if (request.session.userID) {
+    response.locals.login = true;
+  } else {
+    response.locals.login = false;
+  }
   next();
 });
 
@@ -55,11 +60,20 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/sign-petition", (req, res) => {
-  res.render("sign-petition", {
-    title: "Awesome life petition",
-    description:
-      "We want everyone to have a awesome life and enjoy the insanity of beeing alive in a good way. Please sign so we can go on with stuff",
-  });
+  db.getSignature(req.session.userID)
+    .then((signature) => {
+      console.log(signature.rows.length);
+      if (signature.rows.length == 0) {
+        res.render("sign-petition", {
+          title: "Awesome life petition",
+          description:
+            "We want everyone to have a awesome life and enjoy the insanity of beeing alive in a good way. Please sign so we can go on with stuff",
+        });
+      } else {
+        res.redirect(302, "/thank-you");
+      }
+    })
+    .catch((error) => console.log(error));
 });
 
 app.get("/thank-you", (req, res) => {
@@ -76,6 +90,7 @@ app.get("/thank-you", (req, res) => {
 
 app.get("/signers-list", (req, res) => {
   db.getSigners().then((signers) => {
+    console.log(signers.rows);
     res.render("signers-list", {
       title: "Awesome life petition signers",
       signer: signers.rows,
@@ -89,7 +104,7 @@ app.get("/update-user-data", (req, res) => {
     db.getProfile(req.session.userID),
   ]).then((userData) => {
     const { firstname, lastname, email } = userData[0].rows[0];
-    const { age, city, homepage } = userData[1].rows[0];
+    const { age, city, homepage } = userData[1].rows[0] || "";
     res.render("update-user-data", {
       firstname: firstname,
       lastname: lastname,
@@ -131,7 +146,6 @@ app.post("/update-user-data", (req, res) => {
     ]).then((newUserData) => {
       const { firstname, lastname, email } = newUserData[0].rows[0];
       const { age, city, homepage } = newUserData[2].rows[0];
-      console.log(newUserData[1].rows[0]);
       req.session.firstname = firstname;
       req.session.lastname = lastname;
       req.session.email = email;
@@ -206,7 +220,7 @@ app.post("/login", (req, res) => {
             req.session.userID = currentUser[0].id;
             req.session.firstname = currentUser[0].firstname;
             req.session.lastname = currentUser[0].lastname;
-            res.redirect(302, "/thank-you");
+            res.redirect(302, "/sign-petition");
           }
         });
       }
@@ -239,4 +253,8 @@ app.post("/unsign-petition", (req, res) => {
   });
 });
 
+app.post("/logout", (req, res) => {
+  req.session = null;
+  res.redirect(302, "/login");
+});
 app.listen(process.env.PORT || 8080);

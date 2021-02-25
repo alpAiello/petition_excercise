@@ -5,49 +5,71 @@ body {
     display: flex;
     flex-direction: column;
     height: 100%;
-}
-
+    font-family: 'Italiana', serif;}
 header h1 {
-    color: black;
+    color: #563198;
+    margin: 20px;
 }
 header{
-    background-color:#25d6d6;
+    background-color: #25d6d6;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    align-items: center;
     flex-direction: row;
-    position: fixed;
-    top: 0;
     width: 100%;
+    height: 60px;
+}
+.sub-header{
+    display: flex;
+    justify-content: center;
+    background-color: #875dc9;
+    height: 55px;
+    align-items: center;
+    color: #563198;
+    font-size: 20px;
+    text-decoration: none;
+    text-decoration: #def8f7;
+}
+#profile-name{
+
 }
 
+#logout-button{
+    margin: 40px;
+    color: #563198;
+    background-color: #25d6d6;
+}
 h1,
 h2,
 p,
 label {
     text-align: center;
     color: #563198;
+    font-size:14px;
 }
 
 .signatureBox, .form {
     align-self: center;
     background-color: #25d6d6;
-    border-radius: 3%;
     display: flex;
     flex-direction: column;
     padding: 10vh 20vh 10vh 20vh;
-    border: 1px solid black;
+    border: 1px solid #563198;
     margin: 80px;
 }
+.sub-header a{
+    color: white;
+    text-decoration: #25d6d6;
+}.sub-header p{
+    color: #563198;
+}
+header p, h1, a{
+    font-size: 24px;
+    color: #563198;
+}
 
-header p, h1{
-    font-size: 36px;
-}
-header{
-    padding: 10px;
-    border-bottom: 1px solid black;
-}
 h2{
-    font-size:24px;
+    font-size:36px;
     margin: 5px;
 }
 
@@ -77,7 +99,10 @@ button {
     border-radius: 5px;
     border: none;
 }
-
+.submenu{
+    display: flex;
+    flex-direction: row;
+}
 #signatureTable {
     align-self: center;
     background-color: #25d6d6;
@@ -92,9 +117,10 @@ th,
 td {
 
     font-size: 18px;
-    border: 1px solid black;
+    border: 1px solid #563198;
     border-radius: 3%;
     padding: 15px;
+    color: #563198;
 }
 
 th {
@@ -105,9 +131,22 @@ th {
     border: none;
     padding: 0!important;
     /*optional*/
-    font-family: arial, sans-serif;
     /*input has OS specific font-family*/
     color: -webkit-link;
     text-decoration: underline;
     cursor: auto;
+    margin: 0;
+    padding: 0;
+    color: #563198;
+}
+.submenu{
+    display:flex;
+    justify-content: space-evenly;
+}
+.submenu a, button{
+    font-size: 18px;
+}
+#signature{
+    border: 1px solid #563198;
+    margin: 30px 0 10px 0;
 }

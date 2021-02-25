@@ -4,18 +4,28 @@
     <meta charset="utf-8">
     <title>Example App</title>
     <link rel="stylesheet" href="/style.css">
+    <style>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+                                                               <link href="https://fonts.googleapis.com/css2?family=Italiana&display=swap" rel="stylesheet">    </style>
 </head>
 <body>
 <header>
     <h1>GOOD LIFE SIGNATURE CONTEST</h1>
     {{#if showUser}}
-            <p>{{showUser}}</p>
+        <p id="profile-name">Username: {{showUser}}</p>
     {{/if}}
-    <button id="logout-button">Logout</button>
+        {{#if login}}
+            <a href="thank-you">Menu</a>
+        {{/if}}
+
+    {{#if login}}
+        <form action="/logout" method="post">
+            <button type="submit" id="logout-button">Logout</button>
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+        </form>
+    {{/if}}
 </header>
-
-    {{{body}}}
-
+{{{body}}}
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 <script src="/get-signature.js"></script>

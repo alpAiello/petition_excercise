@@ -1,7 +1,7 @@
 const spicedPG = require("spiced-pg");
 let dbUrl =
   process.env.DATABASE_URL ||
-  "postgres://spicedling:password@localhost:5432/petition";
+  "postgres://alessandroaiello:password@localhost:5432/petition";
 const db = spicedPG(dbUrl);
 
 exports.addUser = (firstname, lastname, email, hashedPassword) => {
@@ -106,7 +106,7 @@ From
 JOIN
     users 
     ON (signatures.user_id = users.id)
-JOIN
+LEFT JOIN
     profiles
     ON (profiles.user_id = signatures.user_id);
 `);

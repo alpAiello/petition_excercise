@@ -1,11 +1,13 @@
 <section class="signatureBox">
 <h2>{{title}}</h2>
 <p>thanks to your effort we are much closer now to offering a good life to every one. well done </p>
-<img src="{{signature}}">
-    <a href="/signers-list">see all signers</a>
-    <a href="/update-user-data">update your profile</a>
+<img id="signature" src="{{signature}}">
+    <div class="submenu">
+    <a href="/signers-list">List of all signers</a>
+    <a href="/update-user-data">Update profile</a>
     <form id="unsign-petition" action="/unsign-petition" method="post">
+        <button type="submit">Unsign</button>
         <input type="hidden" name="_csrf" value="{{csrfToken}}">
-        <button type="submit">unsign petition</button>
     </form>
+    </div>
 </section>
